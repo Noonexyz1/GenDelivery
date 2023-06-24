@@ -5,17 +5,18 @@
 package com.miempresa.entidades;
 
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -28,26 +29,23 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Electrodomestico.findAll", query = "SELECT e FROM Electrodomestico e"),
     @NamedQuery(name = "Electrodomestico.findByIdElectrodomestico", query = "SELECT e FROM Electrodomestico e WHERE e.idElectrodomestico = :idElectrodomestico"),
     @NamedQuery(name = "Electrodomestico.findByNombre", query = "SELECT e FROM Electrodomestico e WHERE e.nombre = :nombre"),
-    @NamedQuery(name = "Electrodomestico.findByPesoKg", query = "SELECT e FROM Electrodomestico e WHERE e.pesoKg = :pesoKg"),
-    @NamedQuery(name = "Electrodomestico.findByTipo", query = "SELECT e FROM Electrodomestico e WHERE e.tipo = :tipo")})
+    @NamedQuery(name = "Electrodomestico.findByPesoKg", query = "SELECT e FROM Electrodomestico e WHERE e.pesoKg = :pesoKg")})
 public class Electrodomestico implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id_electrodomestico")
     private Integer idElectrodomestico;
-    @Size(max = 255)
+    @Size(max = 50)
     @Column(name = "nombre")
     private String nombre;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "peso_kg")
-    private BigInteger pesoKg;
-    @Size(max = 255)
-    @Column(name = "tipo")
-    private String tipo;
+    private BigDecimal pesoKg;
     @OneToMany(mappedBy = "idElectrodomestico")
-    private List<Carga> cargaList;
+    private List<EnvioElectrodomestico> envioElectrodomesticoList;
 
     public Electrodomestico() {
     }
@@ -72,28 +70,20 @@ public class Electrodomestico implements Serializable {
         this.nombre = nombre;
     }
 
-    public BigInteger getPesoKg() {
+    public BigDecimal getPesoKg() {
         return pesoKg;
     }
 
-    public void setPesoKg(BigInteger pesoKg) {
+    public void setPesoKg(BigDecimal pesoKg) {
         this.pesoKg = pesoKg;
     }
 
-    public String getTipo() {
-        return tipo;
+    public List<EnvioElectrodomestico> getEnvioElectrodomesticoList() {
+        return envioElectrodomesticoList;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public List<Carga> getCargaList() {
-        return cargaList;
-    }
-
-    public void setCargaList(List<Carga> cargaList) {
-        this.cargaList = cargaList;
+    public void setEnvioElectrodomesticoList(List<EnvioElectrodomestico> envioElectrodomesticoList) {
+        this.envioElectrodomesticoList = envioElectrodomesticoList;
     }
 
     @Override

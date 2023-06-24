@@ -5,17 +5,18 @@
 package com.miempresa.entidades;
 
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -27,23 +28,24 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Camion.findAll", query = "SELECT c FROM Camion c"),
     @NamedQuery(name = "Camion.findByIdCamion", query = "SELECT c FROM Camion c WHERE c.idCamion = :idCamion"),
-    @NamedQuery(name = "Camion.findByCapacidadKg", query = "SELECT c FROM Camion c WHERE c.capacidadKg = :capacidadKg"),
-    @NamedQuery(name = "Camion.findByModelo", query = "SELECT c FROM Camion c WHERE c.modelo = :modelo")})
+    @NamedQuery(name = "Camion.findByModelo", query = "SELECT c FROM Camion c WHERE c.modelo = :modelo"),
+    @NamedQuery(name = "Camion.findByCapacidadKg", query = "SELECT c FROM Camion c WHERE c.capacidadKg = :capacidadKg")})
 public class Camion implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id_camion")
     private Integer idCamion;
-    @Column(name = "capacidad_kg")
-    private BigInteger capacidadKg;
-    @Size(max = 255)
+    @Size(max = 50)
     @Column(name = "modelo")
     private String modelo;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "capacidad_kg")
+    private BigDecimal capacidadKg;
     @OneToMany(mappedBy = "idCamion")
-    private List<Carga> cargaList;
+    private List<Envio> envioList;
 
     public Camion() {
     }
@@ -60,14 +62,6 @@ public class Camion implements Serializable {
         this.idCamion = idCamion;
     }
 
-    public BigInteger getCapacidadKg() {
-        return capacidadKg;
-    }
-
-    public void setCapacidadKg(BigInteger capacidadKg) {
-        this.capacidadKg = capacidadKg;
-    }
-
     public String getModelo() {
         return modelo;
     }
@@ -76,12 +70,20 @@ public class Camion implements Serializable {
         this.modelo = modelo;
     }
 
-    public List<Carga> getCargaList() {
-        return cargaList;
+    public BigDecimal getCapacidadKg() {
+        return capacidadKg;
     }
 
-    public void setCargaList(List<Carga> cargaList) {
-        this.cargaList = cargaList;
+    public void setCapacidadKg(BigDecimal capacidadKg) {
+        this.capacidadKg = capacidadKg;
+    }
+
+    public List<Envio> getEnvioList() {
+        return envioList;
+    }
+
+    public void setEnvioList(List<Envio> envioList) {
+        this.envioList = envioList;
     }
 
     @Override

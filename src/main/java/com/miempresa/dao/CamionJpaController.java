@@ -5,14 +5,13 @@
 package com.miempresa.dao;
 
 import com.miempresa.dao.exceptions.NonexistentEntityException;
-import com.miempresa.dao.exceptions.PreexistingEntityException;
 import com.miempresa.entidades.Camion;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.miempresa.entidades.Carga;
+import com.miempresa.entidades.Envio;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -33,36 +32,31 @@ public class CamionJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Camion camion) throws PreexistingEntityException, Exception {
-        if (camion.getCargaList() == null) {
-            camion.setCargaList(new ArrayList<Carga>());
+    public void create(Camion camion) {
+        if (camion.getEnvioList() == null) {
+            camion.setEnvioList(new ArrayList<Envio>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Carga> attachedCargaList = new ArrayList<Carga>();
-            for (Carga cargaListCargaToAttach : camion.getCargaList()) {
-                cargaListCargaToAttach = em.getReference(cargaListCargaToAttach.getClass(), cargaListCargaToAttach.getIdCarga());
-                attachedCargaList.add(cargaListCargaToAttach);
+            List<Envio> attachedEnvioList = new ArrayList<Envio>();
+            for (Envio envioListEnvioToAttach : camion.getEnvioList()) {
+                envioListEnvioToAttach = em.getReference(envioListEnvioToAttach.getClass(), envioListEnvioToAttach.getIdEnvio());
+                attachedEnvioList.add(envioListEnvioToAttach);
             }
-            camion.setCargaList(attachedCargaList);
+            camion.setEnvioList(attachedEnvioList);
             em.persist(camion);
-            for (Carga cargaListCarga : camion.getCargaList()) {
-                Camion oldIdCamionOfCargaListCarga = cargaListCarga.getIdCamion();
-                cargaListCarga.setIdCamion(camion);
-                cargaListCarga = em.merge(cargaListCarga);
-                if (oldIdCamionOfCargaListCarga != null) {
-                    oldIdCamionOfCargaListCarga.getCargaList().remove(cargaListCarga);
-                    oldIdCamionOfCargaListCarga = em.merge(oldIdCamionOfCargaListCarga);
+            for (Envio envioListEnvio : camion.getEnvioList()) {
+                Camion oldIdCamionOfEnvioListEnvio = envioListEnvio.getIdCamion();
+                envioListEnvio.setIdCamion(camion);
+                envioListEnvio = em.merge(envioListEnvio);
+                if (oldIdCamionOfEnvioListEnvio != null) {
+                    oldIdCamionOfEnvioListEnvio.getEnvioList().remove(envioListEnvio);
+                    oldIdCamionOfEnvioListEnvio = em.merge(oldIdCamionOfEnvioListEnvio);
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findCamion(camion.getIdCamion()) != null) {
-                throw new PreexistingEntityException("Camion " + camion + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -76,30 +70,30 @@ public class CamionJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Camion persistentCamion = em.find(Camion.class, camion.getIdCamion());
-            List<Carga> cargaListOld = persistentCamion.getCargaList();
-            List<Carga> cargaListNew = camion.getCargaList();
-            List<Carga> attachedCargaListNew = new ArrayList<Carga>();
-            for (Carga cargaListNewCargaToAttach : cargaListNew) {
-                cargaListNewCargaToAttach = em.getReference(cargaListNewCargaToAttach.getClass(), cargaListNewCargaToAttach.getIdCarga());
-                attachedCargaListNew.add(cargaListNewCargaToAttach);
+            List<Envio> envioListOld = persistentCamion.getEnvioList();
+            List<Envio> envioListNew = camion.getEnvioList();
+            List<Envio> attachedEnvioListNew = new ArrayList<Envio>();
+            for (Envio envioListNewEnvioToAttach : envioListNew) {
+                envioListNewEnvioToAttach = em.getReference(envioListNewEnvioToAttach.getClass(), envioListNewEnvioToAttach.getIdEnvio());
+                attachedEnvioListNew.add(envioListNewEnvioToAttach);
             }
-            cargaListNew = attachedCargaListNew;
-            camion.setCargaList(cargaListNew);
+            envioListNew = attachedEnvioListNew;
+            camion.setEnvioList(envioListNew);
             camion = em.merge(camion);
-            for (Carga cargaListOldCarga : cargaListOld) {
-                if (!cargaListNew.contains(cargaListOldCarga)) {
-                    cargaListOldCarga.setIdCamion(null);
-                    cargaListOldCarga = em.merge(cargaListOldCarga);
+            for (Envio envioListOldEnvio : envioListOld) {
+                if (!envioListNew.contains(envioListOldEnvio)) {
+                    envioListOldEnvio.setIdCamion(null);
+                    envioListOldEnvio = em.merge(envioListOldEnvio);
                 }
             }
-            for (Carga cargaListNewCarga : cargaListNew) {
-                if (!cargaListOld.contains(cargaListNewCarga)) {
-                    Camion oldIdCamionOfCargaListNewCarga = cargaListNewCarga.getIdCamion();
-                    cargaListNewCarga.setIdCamion(camion);
-                    cargaListNewCarga = em.merge(cargaListNewCarga);
-                    if (oldIdCamionOfCargaListNewCarga != null && !oldIdCamionOfCargaListNewCarga.equals(camion)) {
-                        oldIdCamionOfCargaListNewCarga.getCargaList().remove(cargaListNewCarga);
-                        oldIdCamionOfCargaListNewCarga = em.merge(oldIdCamionOfCargaListNewCarga);
+            for (Envio envioListNewEnvio : envioListNew) {
+                if (!envioListOld.contains(envioListNewEnvio)) {
+                    Camion oldIdCamionOfEnvioListNewEnvio = envioListNewEnvio.getIdCamion();
+                    envioListNewEnvio.setIdCamion(camion);
+                    envioListNewEnvio = em.merge(envioListNewEnvio);
+                    if (oldIdCamionOfEnvioListNewEnvio != null && !oldIdCamionOfEnvioListNewEnvio.equals(camion)) {
+                        oldIdCamionOfEnvioListNewEnvio.getEnvioList().remove(envioListNewEnvio);
+                        oldIdCamionOfEnvioListNewEnvio = em.merge(oldIdCamionOfEnvioListNewEnvio);
                     }
                 }
             }
@@ -132,10 +126,10 @@ public class CamionJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The camion with id " + id + " no longer exists.", enfe);
             }
-            List<Carga> cargaList = camion.getCargaList();
-            for (Carga cargaListCarga : cargaList) {
-                cargaListCarga.setIdCamion(null);
-                cargaListCarga = em.merge(cargaListCarga);
+            List<Envio> envioList = camion.getEnvioList();
+            for (Envio envioListEnvio : envioList) {
+                envioListEnvio.setIdCamion(null);
+                envioListEnvio = em.merge(envioListEnvio);
             }
             em.remove(camion);
             em.getTransaction().commit();

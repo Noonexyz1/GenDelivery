@@ -5,12 +5,13 @@
 package com.miempresa.dao;
 
 import com.miempresa.dao.exceptions.NonexistentEntityException;
-import com.miempresa.entidades.Electrodomestico;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import com.miempresa.entidades.Camion;
+import com.miempresa.entidades.Envio;
 import com.miempresa.entidades.EnvioElectrodomestico;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +22,9 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author noone
  */
-public class ElectrodomesticoJpaController implements Serializable {
+public class EnvioJpaController implements Serializable {
 
-    public ElectrodomesticoJpaController(EntityManagerFactory emf) {
+    public EnvioJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -32,28 +33,37 @@ public class ElectrodomesticoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Electrodomestico electrodomestico) {
-        if (electrodomestico.getEnvioElectrodomesticoList() == null) {
-            electrodomestico.setEnvioElectrodomesticoList(new ArrayList<EnvioElectrodomestico>());
+    public void create(Envio envio) {
+        if (envio.getEnvioElectrodomesticoList() == null) {
+            envio.setEnvioElectrodomesticoList(new ArrayList<EnvioElectrodomestico>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Camion idCamion = envio.getIdCamion();
+            if (idCamion != null) {
+                idCamion = em.getReference(idCamion.getClass(), idCamion.getIdCamion());
+                envio.setIdCamion(idCamion);
+            }
             List<EnvioElectrodomestico> attachedEnvioElectrodomesticoList = new ArrayList<EnvioElectrodomestico>();
-            for (EnvioElectrodomestico envioElectrodomesticoListEnvioElectrodomesticoToAttach : electrodomestico.getEnvioElectrodomesticoList()) {
+            for (EnvioElectrodomestico envioElectrodomesticoListEnvioElectrodomesticoToAttach : envio.getEnvioElectrodomesticoList()) {
                 envioElectrodomesticoListEnvioElectrodomesticoToAttach = em.getReference(envioElectrodomesticoListEnvioElectrodomesticoToAttach.getClass(), envioElectrodomesticoListEnvioElectrodomesticoToAttach.getIdEnvioElectrodomestico());
                 attachedEnvioElectrodomesticoList.add(envioElectrodomesticoListEnvioElectrodomesticoToAttach);
             }
-            electrodomestico.setEnvioElectrodomesticoList(attachedEnvioElectrodomesticoList);
-            em.persist(electrodomestico);
-            for (EnvioElectrodomestico envioElectrodomesticoListEnvioElectrodomestico : electrodomestico.getEnvioElectrodomesticoList()) {
-                Electrodomestico oldIdElectrodomesticoOfEnvioElectrodomesticoListEnvioElectrodomestico = envioElectrodomesticoListEnvioElectrodomestico.getIdElectrodomestico();
-                envioElectrodomesticoListEnvioElectrodomestico.setIdElectrodomestico(electrodomestico);
+            envio.setEnvioElectrodomesticoList(attachedEnvioElectrodomesticoList);
+            em.persist(envio);
+            if (idCamion != null) {
+                idCamion.getEnvioList().add(envio);
+                idCamion = em.merge(idCamion);
+            }
+            for (EnvioElectrodomestico envioElectrodomesticoListEnvioElectrodomestico : envio.getEnvioElectrodomesticoList()) {
+                Envio oldIdEnvioOfEnvioElectrodomesticoListEnvioElectrodomestico = envioElectrodomesticoListEnvioElectrodomestico.getIdEnvio();
+                envioElectrodomesticoListEnvioElectrodomestico.setIdEnvio(envio);
                 envioElectrodomesticoListEnvioElectrodomestico = em.merge(envioElectrodomesticoListEnvioElectrodomestico);
-                if (oldIdElectrodomesticoOfEnvioElectrodomesticoListEnvioElectrodomestico != null) {
-                    oldIdElectrodomesticoOfEnvioElectrodomesticoListEnvioElectrodomestico.getEnvioElectrodomesticoList().remove(envioElectrodomesticoListEnvioElectrodomestico);
-                    oldIdElectrodomesticoOfEnvioElectrodomesticoListEnvioElectrodomestico = em.merge(oldIdElectrodomesticoOfEnvioElectrodomesticoListEnvioElectrodomestico);
+                if (oldIdEnvioOfEnvioElectrodomesticoListEnvioElectrodomestico != null) {
+                    oldIdEnvioOfEnvioElectrodomesticoListEnvioElectrodomestico.getEnvioElectrodomesticoList().remove(envioElectrodomesticoListEnvioElectrodomestico);
+                    oldIdEnvioOfEnvioElectrodomesticoListEnvioElectrodomestico = em.merge(oldIdEnvioOfEnvioElectrodomesticoListEnvioElectrodomestico);
                 }
             }
             em.getTransaction().commit();
@@ -64,36 +74,50 @@ public class ElectrodomesticoJpaController implements Serializable {
         }
     }
 
-    public void edit(Electrodomestico electrodomestico) throws NonexistentEntityException, Exception {
+    public void edit(Envio envio) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Electrodomestico persistentElectrodomestico = em.find(Electrodomestico.class, electrodomestico.getIdElectrodomestico());
-            List<EnvioElectrodomestico> envioElectrodomesticoListOld = persistentElectrodomestico.getEnvioElectrodomesticoList();
-            List<EnvioElectrodomestico> envioElectrodomesticoListNew = electrodomestico.getEnvioElectrodomesticoList();
+            Envio persistentEnvio = em.find(Envio.class, envio.getIdEnvio());
+            Camion idCamionOld = persistentEnvio.getIdCamion();
+            Camion idCamionNew = envio.getIdCamion();
+            List<EnvioElectrodomestico> envioElectrodomesticoListOld = persistentEnvio.getEnvioElectrodomesticoList();
+            List<EnvioElectrodomestico> envioElectrodomesticoListNew = envio.getEnvioElectrodomesticoList();
+            if (idCamionNew != null) {
+                idCamionNew = em.getReference(idCamionNew.getClass(), idCamionNew.getIdCamion());
+                envio.setIdCamion(idCamionNew);
+            }
             List<EnvioElectrodomestico> attachedEnvioElectrodomesticoListNew = new ArrayList<EnvioElectrodomestico>();
             for (EnvioElectrodomestico envioElectrodomesticoListNewEnvioElectrodomesticoToAttach : envioElectrodomesticoListNew) {
                 envioElectrodomesticoListNewEnvioElectrodomesticoToAttach = em.getReference(envioElectrodomesticoListNewEnvioElectrodomesticoToAttach.getClass(), envioElectrodomesticoListNewEnvioElectrodomesticoToAttach.getIdEnvioElectrodomestico());
                 attachedEnvioElectrodomesticoListNew.add(envioElectrodomesticoListNewEnvioElectrodomesticoToAttach);
             }
             envioElectrodomesticoListNew = attachedEnvioElectrodomesticoListNew;
-            electrodomestico.setEnvioElectrodomesticoList(envioElectrodomesticoListNew);
-            electrodomestico = em.merge(electrodomestico);
+            envio.setEnvioElectrodomesticoList(envioElectrodomesticoListNew);
+            envio = em.merge(envio);
+            if (idCamionOld != null && !idCamionOld.equals(idCamionNew)) {
+                idCamionOld.getEnvioList().remove(envio);
+                idCamionOld = em.merge(idCamionOld);
+            }
+            if (idCamionNew != null && !idCamionNew.equals(idCamionOld)) {
+                idCamionNew.getEnvioList().add(envio);
+                idCamionNew = em.merge(idCamionNew);
+            }
             for (EnvioElectrodomestico envioElectrodomesticoListOldEnvioElectrodomestico : envioElectrodomesticoListOld) {
                 if (!envioElectrodomesticoListNew.contains(envioElectrodomesticoListOldEnvioElectrodomestico)) {
-                    envioElectrodomesticoListOldEnvioElectrodomestico.setIdElectrodomestico(null);
+                    envioElectrodomesticoListOldEnvioElectrodomestico.setIdEnvio(null);
                     envioElectrodomesticoListOldEnvioElectrodomestico = em.merge(envioElectrodomesticoListOldEnvioElectrodomestico);
                 }
             }
             for (EnvioElectrodomestico envioElectrodomesticoListNewEnvioElectrodomestico : envioElectrodomesticoListNew) {
                 if (!envioElectrodomesticoListOld.contains(envioElectrodomesticoListNewEnvioElectrodomestico)) {
-                    Electrodomestico oldIdElectrodomesticoOfEnvioElectrodomesticoListNewEnvioElectrodomestico = envioElectrodomesticoListNewEnvioElectrodomestico.getIdElectrodomestico();
-                    envioElectrodomesticoListNewEnvioElectrodomestico.setIdElectrodomestico(electrodomestico);
+                    Envio oldIdEnvioOfEnvioElectrodomesticoListNewEnvioElectrodomestico = envioElectrodomesticoListNewEnvioElectrodomestico.getIdEnvio();
+                    envioElectrodomesticoListNewEnvioElectrodomestico.setIdEnvio(envio);
                     envioElectrodomesticoListNewEnvioElectrodomestico = em.merge(envioElectrodomesticoListNewEnvioElectrodomestico);
-                    if (oldIdElectrodomesticoOfEnvioElectrodomesticoListNewEnvioElectrodomestico != null && !oldIdElectrodomesticoOfEnvioElectrodomesticoListNewEnvioElectrodomestico.equals(electrodomestico)) {
-                        oldIdElectrodomesticoOfEnvioElectrodomesticoListNewEnvioElectrodomestico.getEnvioElectrodomesticoList().remove(envioElectrodomesticoListNewEnvioElectrodomestico);
-                        oldIdElectrodomesticoOfEnvioElectrodomesticoListNewEnvioElectrodomestico = em.merge(oldIdElectrodomesticoOfEnvioElectrodomesticoListNewEnvioElectrodomestico);
+                    if (oldIdEnvioOfEnvioElectrodomesticoListNewEnvioElectrodomestico != null && !oldIdEnvioOfEnvioElectrodomesticoListNewEnvioElectrodomestico.equals(envio)) {
+                        oldIdEnvioOfEnvioElectrodomesticoListNewEnvioElectrodomestico.getEnvioElectrodomesticoList().remove(envioElectrodomesticoListNewEnvioElectrodomestico);
+                        oldIdEnvioOfEnvioElectrodomesticoListNewEnvioElectrodomestico = em.merge(oldIdEnvioOfEnvioElectrodomesticoListNewEnvioElectrodomestico);
                     }
                 }
             }
@@ -101,9 +125,9 @@ public class ElectrodomesticoJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = electrodomestico.getIdElectrodomestico();
-                if (findElectrodomestico(id) == null) {
-                    throw new NonexistentEntityException("The electrodomestico with id " + id + " no longer exists.");
+                Integer id = envio.getIdEnvio();
+                if (findEnvio(id) == null) {
+                    throw new NonexistentEntityException("The envio with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -119,19 +143,24 @@ public class ElectrodomesticoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Electrodomestico electrodomestico;
+            Envio envio;
             try {
-                electrodomestico = em.getReference(Electrodomestico.class, id);
-                electrodomestico.getIdElectrodomestico();
+                envio = em.getReference(Envio.class, id);
+                envio.getIdEnvio();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The electrodomestico with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The envio with id " + id + " no longer exists.", enfe);
             }
-            List<EnvioElectrodomestico> envioElectrodomesticoList = electrodomestico.getEnvioElectrodomesticoList();
+            Camion idCamion = envio.getIdCamion();
+            if (idCamion != null) {
+                idCamion.getEnvioList().remove(envio);
+                idCamion = em.merge(idCamion);
+            }
+            List<EnvioElectrodomestico> envioElectrodomesticoList = envio.getEnvioElectrodomesticoList();
             for (EnvioElectrodomestico envioElectrodomesticoListEnvioElectrodomestico : envioElectrodomesticoList) {
-                envioElectrodomesticoListEnvioElectrodomestico.setIdElectrodomestico(null);
+                envioElectrodomesticoListEnvioElectrodomestico.setIdEnvio(null);
                 envioElectrodomesticoListEnvioElectrodomestico = em.merge(envioElectrodomesticoListEnvioElectrodomestico);
             }
-            em.remove(electrodomestico);
+            em.remove(envio);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -140,19 +169,19 @@ public class ElectrodomesticoJpaController implements Serializable {
         }
     }
 
-    public List<Electrodomestico> findElectrodomesticoEntities() {
-        return findElectrodomesticoEntities(true, -1, -1);
+    public List<Envio> findEnvioEntities() {
+        return findEnvioEntities(true, -1, -1);
     }
 
-    public List<Electrodomestico> findElectrodomesticoEntities(int maxResults, int firstResult) {
-        return findElectrodomesticoEntities(false, maxResults, firstResult);
+    public List<Envio> findEnvioEntities(int maxResults, int firstResult) {
+        return findEnvioEntities(false, maxResults, firstResult);
     }
 
-    private List<Electrodomestico> findElectrodomesticoEntities(boolean all, int maxResults, int firstResult) {
+    private List<Envio> findEnvioEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Electrodomestico.class));
+            cq.select(cq.from(Envio.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -164,20 +193,20 @@ public class ElectrodomesticoJpaController implements Serializable {
         }
     }
 
-    public Electrodomestico findElectrodomestico(Integer id) {
+    public Envio findEnvio(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Electrodomestico.class, id);
+            return em.find(Envio.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getElectrodomesticoCount() {
+    public int getEnvioCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Electrodomestico> rt = cq.from(Electrodomestico.class);
+            Root<Envio> rt = cq.from(Envio.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
