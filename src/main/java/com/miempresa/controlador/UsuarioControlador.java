@@ -1,24 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
+
 package com.miempresa.controlador;
 
+import com.miempresa.bean.ManejadorBean;
 import com.miempresa.bean.UsuarioBean;
-import com.miempresa.entidades.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author noone
- */
+
 @WebServlet(name = "UsuarioControlador", urlPatterns = {"/UsuarioControlador"})
 public class UsuarioControlador extends HttpServlet {
 
@@ -26,11 +18,15 @@ public class UsuarioControlador extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        UsuarioBean usuarioBean = new UsuarioBean();
-        List<Usuario> usuarios = usuarioBean.obtenerUsuarios();
+        ManejadorBean manejadorBean = new ManejadorBean(new UsuarioBean());
+        manejadorBean.evaluarParametro(request, response);
 
-        request.setAttribute("usuarios", usuarios);
-        request.getRequestDispatcher("usuario.jsp").forward(request, response);
+        String atributoName = manejadorBean.getAtributoName();
+        String jspPath = manejadorBean.getJspPath();
+        Object objetoEnvio = manejadorBean.getObjetoEnvio();
+
+        request.setAttribute(atributoName, objetoEnvio);
+        request.getRequestDispatcher(jspPath).forward(request, response);
 
     }
 

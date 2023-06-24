@@ -1,24 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
+
 package com.miempresa.controlador;
 
 import com.miempresa.bean.CargaBean;
-import com.miempresa.entidades.Carga;
+import com.miempresa.bean.ManejadorBean;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author noone
- */
+
 @WebServlet(name = "CargaControlador", urlPatterns = {"/CargaControlador"})
 public class CargaControlador extends HttpServlet {
 
@@ -26,11 +18,16 @@ public class CargaControlador extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        CargaBean cargaBean = new CargaBean();
-        List<Carga> cargas = cargaBean.obtenerCargas();
-
-        request.setAttribute("cargas", cargas);
-        request.getRequestDispatcher("envio.jsp").forward(request, response);
+        
+        ManejadorBean manejadorBean = new ManejadorBean(new CargaBean());
+        manejadorBean.evaluarParametro(request, response);
+        
+        String atributoName = manejadorBean.getAtributoName();
+        String jspPath = manejadorBean.getJspPath();
+        Object objetoEnvio = manejadorBean.getObjetoEnvio();
+        
+        request.setAttribute(atributoName, objetoEnvio);
+        request.getRequestDispatcher(jspPath).forward(request, response);
 
     }
 

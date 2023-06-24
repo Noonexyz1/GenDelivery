@@ -13,11 +13,11 @@
     <body>
         
         <h1>
-            <c:if test="${electrodomestico.idElectrodomestico == 0}">
+            <c:if test="${electrodomestico.idElectrodomestico == null}">
                 Nuevo Registro
             </c:if>
 
-                <c:if test="${electrodomestico.idElectrodomestico != 0}">
+                <c:if test="${electrodomestico.idElectrodomestico != null}">
                 Editar Registro
             </c:if>
 

@@ -5,6 +5,7 @@
 package com.miempresa.controlador;
 
 import com.miempresa.bean.ElectrodomesticoBean;
+import com.miempresa.bean.ManejadorBean;
 import com.miempresa.entidades.Electrodomestico;
 import java.io.IOException;
 import java.util.List;
@@ -22,11 +23,15 @@ public class ElectrodomesticoControlador extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ElectrodomesticoBean electrodomesticoBean = new ElectrodomesticoBean();
-        List<Electrodomestico> electrodomesticos = electrodomesticoBean.obtenerElectrodomesticos();
+        ManejadorBean manejadorBean = new ManejadorBean(new ElectrodomesticoBean());
+        manejadorBean.evaluarParametro(request, response);
 
-        request.setAttribute("electrodomesticos", electrodomesticos);
-        request.getRequestDispatcher("electrodomestico.jsp").forward(request, response);
+        String atributoName = manejadorBean.getAtributoName();
+        String jspPath = manejadorBean.getJspPath();
+        Object objetoEnvio = manejadorBean.getObjetoEnvio();
+
+        request.setAttribute(atributoName, objetoEnvio);
+        request.getRequestDispatcher(jspPath).forward(request, response);
 
     }
 

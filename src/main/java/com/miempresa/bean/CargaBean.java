@@ -5,8 +5,11 @@
 package com.miempresa.bean;
 
 import com.miempresa.dao.CargaJpaController;
+import com.miempresa.dao.exceptions.NonexistentEntityException;
 import com.miempresa.entidades.Carga;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -25,6 +28,18 @@ public class CargaBean {
 
     public List<Carga> obtenerCargas() {
         return cargaJpaController.findCargaEntities();
+    }
+
+    public Carga traerCarga(int parseInt) {
+        return cargaJpaController.findCarga(parseInt);
+    }
+
+    void eliminarCarga(int parseInt) {
+        try {
+            cargaJpaController.destroy(parseInt);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(CargaBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     

@@ -1,19 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.miempresa.bean;
 
 import com.miempresa.dao.CamionJpaController;
+import com.miempresa.dao.exceptions.NonexistentEntityException;
 import com.miempresa.entidades.Camion;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-/**
- *
- * @author noone
- */
 public class CamionBean {
     private EntityManagerFactory emf;
     private CamionJpaController camionJpaController;
@@ -24,12 +20,25 @@ public class CamionBean {
         camionJpaController = new CamionJpaController(emf);
     }
 
+    
     public List<Camion> obtenerCamiones() {
         
         return camionJpaController.findCamionEntities();
         
     }
+
+    public Camion traerCamion(int parseInt) {
+        return camionJpaController.findCamion(parseInt);
+    }
+
+    public void eliminarCamion(int parseInt) {
+        try {
+            camionJpaController.destroy(parseInt);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(CamionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
  
-    
+   
     
 }

@@ -10,11 +10,7 @@
         </session-timeout>
     </session-config>
     
-    <welcome-file-list>
-        <welcome-file>
-            CargaControlador
-        </welcome-file>
-    </welcome-file-list>
+    
     
     
 </web-app>

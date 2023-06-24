@@ -14,11 +14,11 @@
         
         
         <h1>
-            <c:if test="${usuario.idUsuario == 0}">
+            <c:if test="${usuario.idUsuario == null}">
                 Nuevo Registro
             </c:if>
 
-                <c:if test="${usuario.idUsuario != 0}">
+                <c:if test="${usuario.idUsuario != null}">
                 Editar Registro
             </c:if>
 
@@ -28,21 +28,21 @@
         
         <form action="UsuarioControlador" method="POST">
 
-            <input type="hidden" name="id" value="${camion.idUsuario}"> 
+            <input type="hidden" name="id" value="${usuario.idUsuario}"> 
 
             <table>
                 
                 <tr>
                     <td>Correo:</td>
-                    <td><input type="text" name="correo" value="${camion.correo}"></td>
+                    <td><input type="text" name="correo" value="${usuario.correo}"></td>
                 </tr>
                 <tr>
                     <td>Contraseña:</td>
-                    <td><input type="password" name="contrasena" value="${camion.contrasena}"></td>
+                    <td><input type="password" name="contrasena" value="${usuario.contrasena}"></td>
                 </tr>
                 <tr>
                     <td>Nombre:</td>
-                    <td><input type="text" name="nombre" value="${camion.nombre}"></td>
+                    <td><input type="text" name="nombre" value="${usuario.nombre}"></td>
                 </tr>
 
                 <tr>

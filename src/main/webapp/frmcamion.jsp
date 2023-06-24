@@ -14,11 +14,11 @@
     <body>
         
         <h1>
-            <c:if test="${camion.idCamion == 0}">
+            <c:if test="${camion.idCamion == null}">
                 Nuevo Registro
             </c:if>
 
-                <c:if test="${camion.idCamion != 0}">
+                <c:if test="${camion.idCamion != null}">
                 Editar Registro
             </c:if>
 
