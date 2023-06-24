@@ -5,7 +5,7 @@
 package com.miempresa.entidades;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -38,13 +38,12 @@ public class Electrodomestico implements Serializable {
     @NotNull
     @Column(name = "id_electrodomestico")
     private Integer idElectrodomestico;
-    @Size(max = 50)
+    @Size(max = 255)
     @Column(name = "nombre")
     private String nombre;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "peso_kg")
-    private BigDecimal pesoKg;
-    @Size(max = 50)
+    private BigInteger pesoKg;
+    @Size(max = 255)
     @Column(name = "tipo")
     private String tipo;
     @OneToMany(mappedBy = "idElectrodomestico")
@@ -73,11 +72,11 @@ public class Electrodomestico implements Serializable {
         this.nombre = nombre;
     }
 
-    public BigDecimal getPesoKg() {
+    public BigInteger getPesoKg() {
         return pesoKg;
     }
 
-    public void setPesoKg(BigDecimal pesoKg) {
+    public void setPesoKg(BigInteger pesoKg) {
         this.pesoKg = pesoKg;
     }
 

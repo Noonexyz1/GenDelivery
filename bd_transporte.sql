@@ -134,7 +134,7 @@ INSERT INTO `electrodomestico` (`id_electrodomestico`, `nombre`, `peso_kg`, `tip
 CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL,
   `correo` varchar(50) DEFAULT NULL,
-  `contraseña` varchar(50) DEFAULT NULL,
+  `contrasena` varchar(50) DEFAULT NULL,
   `nombre` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -142,7 +142,7 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `correo`, `contraseña`, `nombre`) VALUES
+INSERT INTO `usuario` (`id_usuario`, `correo`, `contrasena`, `nombre`) VALUES
 (1, 'admin@admin.com', 'admin', 'Diego D Mamani'),
 (2, 'usuario2@example.com', 'contraseña2', 'Usuario 2'),
 (3, 'usuario3@example.com', 'contraseña3', 'Usuario 3');

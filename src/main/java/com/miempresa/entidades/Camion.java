@@ -5,7 +5,7 @@
 package com.miempresa.entidades;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -27,8 +27,8 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Camion.findAll", query = "SELECT c FROM Camion c"),
     @NamedQuery(name = "Camion.findByIdCamion", query = "SELECT c FROM Camion c WHERE c.idCamion = :idCamion"),
-    @NamedQuery(name = "Camion.findByModelo", query = "SELECT c FROM Camion c WHERE c.modelo = :modelo"),
-    @NamedQuery(name = "Camion.findByCapacidadKg", query = "SELECT c FROM Camion c WHERE c.capacidadKg = :capacidadKg")})
+    @NamedQuery(name = "Camion.findByCapacidadKg", query = "SELECT c FROM Camion c WHERE c.capacidadKg = :capacidadKg"),
+    @NamedQuery(name = "Camion.findByModelo", query = "SELECT c FROM Camion c WHERE c.modelo = :modelo")})
 public class Camion implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,12 +37,11 @@ public class Camion implements Serializable {
     @NotNull
     @Column(name = "id_camion")
     private Integer idCamion;
-    @Size(max = 50)
+    @Column(name = "capacidad_kg")
+    private BigInteger capacidadKg;
+    @Size(max = 255)
     @Column(name = "modelo")
     private String modelo;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "capacidad_kg")
-    private BigDecimal capacidadKg;
     @OneToMany(mappedBy = "idCamion")
     private List<Carga> cargaList;
 
@@ -61,20 +60,20 @@ public class Camion implements Serializable {
         this.idCamion = idCamion;
     }
 
+    public BigInteger getCapacidadKg() {
+        return capacidadKg;
+    }
+
+    public void setCapacidadKg(BigInteger capacidadKg) {
+        this.capacidadKg = capacidadKg;
+    }
+
     public String getModelo() {
         return modelo;
     }
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
-    }
-
-    public BigDecimal getCapacidadKg() {
-        return capacidadKg;
-    }
-
-    public void setCapacidadKg(BigDecimal capacidadKg) {
-        this.capacidadKg = capacidadKg;
     }
 
     public List<Carga> getCargaList() {
