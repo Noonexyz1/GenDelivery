@@ -24,11 +24,11 @@ public class Cromosoma {
         Producto prod4 = new Producto("  Libro", 700, 30);
         Producto prod5 = new Producto("Celular", 100, 50);
         
-        g1.setProducto(prod1);
+        /*g1.setProducto(prod1);
         g2.setProducto(prod2);
         g3.setProducto(prod3);
         g4.setProducto(prod4);
-        g5.setProducto(prod5);
+        g5.setProducto(prod5);*/
         
         
         /*5 cromosomas*/

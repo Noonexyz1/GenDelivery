@@ -1,5 +1,6 @@
 package com.miempresa.bean;
 
+import com.miempresa.algoritmo.AlgoritmoGenetico;
 import com.miempresa.entidades.Camion;
 import com.miempresa.entidades.Electrodomestico;
 import com.miempresa.entidades.ModeloReporteEnvio;
@@ -149,7 +150,8 @@ public class ManejadorBean {
                 Camion camion = camionBean.obtenerCamiones(Integer.parseInt(parametro));
                 int capacidadCamion = camion.getCapacidadKg().intValue();
                 
-                
+                AlgoritmoGenetico poblacion = new AlgoritmoGenetico();
+                poblacion.algoritmoGenetico();
                 
                 atributoName = "camiones";
                 jspPath = "camion.jsp";

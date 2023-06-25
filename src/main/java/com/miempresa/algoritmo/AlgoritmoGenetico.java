@@ -4,6 +4,7 @@ package com.miempresa.algoritmo;
 
 import com.miempresa.bean.ElectrodomesticoBean;
 import com.miempresa.entidades.Electrodomestico;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,19 +16,43 @@ public class AlgoritmoGenetico {
         ElectrodomesticoBean electrodomesticoBean = new ElectrodomesticoBean();
         
         Poblacion poblacion = new Poblacion();
-        poblacion.getPoblacion();
-
-        Gen gen = new Gen();
-            
+        List<Cromosoma> cromosomas = new ArrayList<>();
         
-        for (Electrodomestico electro : electrodomesticoBean.obtenerElectrodomesticos()) {
-            gen.setElectrodomestico(electro);
+        for (int i = 0 ; i < 6; i++){
+            
+            /*creamos una muestra de una colecion des genes, osea la primera fila*/
+            List<Gen> genes = new ArrayList<>();
+            
+            electrodomesticoBean.obtenerElectrodomesticos();
+            List<Electrodomestico> lista = electrodomesticoBean.obtenerElectrodomesticos();
+            for (Electrodomestico electro : lista) {
+                Gen gen = new Gen();
+                gen.setElectrodomestico(electro);
+                genes.add(gen);
+            }
+
+            Cromosoma cromosoma = new Cromosoma();
+            cromosoma.setCromosoma(genes);
+
+            
+            cromosomas.add(cromosoma);
             
         }
         
+        poblacion.setPoblacion(cromosomas);
+        /*Hasta aqui funciona*/
+       
         
+        
+        
+        
+        /*se supone que hasta aqui ya tengo toda lapoblacion con los cromosomas dentro y lo genes tambien*/
+        
+        
+        poblacion.getPoblacion();
         List<Cromosoma> poblacionPrueba = poblacion.getPoblacion();
 
+        
         System.out.println("-----------------------------------------------------------------------");
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
@@ -67,7 +92,7 @@ public class AlgoritmoGenetico {
                     int valor = poblacionPrueba.get(i).getCromosoma().get(j).getValor();
                     if (valor == 1) {
 
-                        sumatoriaDePesos = sumatoriaDePesos + poblacionPrueba.get(i).getCromosoma().get(j).getProducto().getPeso();
+                        //sumatoriaDePesos = sumatoriaDePesos + poblacionPrueba.get(i).getCromosoma().get(j).getProducto().getPeso();
                         sumatoriaDeBeneficios = sumatoriaDeBeneficios + poblacionPrueba.get(i).getCromosoma().get(j).getProducto().getBeneficio();
                         if (sumatoriaDePesos > capacidadMaxima) {
                             /*hallar la penalizacion*/
