@@ -6,9 +6,7 @@ package com.miempresa.controlador;
 
 import com.miempresa.bean.ElectrodomesticoBean;
 import com.miempresa.bean.ManejadorBean;
-import com.miempresa.entidades.Electrodomestico;
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

@@ -2,10 +2,11 @@
 <persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence           http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
   <persistence-unit name="GenDelivery" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>com.miempresa.entidades.Carga</class>
-    <class>com.miempresa.entidades.Electrodomestico</class>
-    <class>com.miempresa.entidades.Camion</class>
+    <class>com.miempresa.entidades.EnvioElectrodomestico</class>
     <class>com.miempresa.entidades.Usuario</class>
+    <class>com.miempresa.entidades.Camion</class>
+    <class>com.miempresa.entidades.Electrodomestico</class>
+    <class>com.miempresa.entidades.Envio</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/bd_transporte?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

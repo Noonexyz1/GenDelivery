@@ -38,6 +38,10 @@ public class CamionBean {
             Logger.getLogger(CamionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public Camion obtenerCamiones(int parseInt) {
+        return camionJpaController.findCamion(parseInt);
+    }
  
    
     

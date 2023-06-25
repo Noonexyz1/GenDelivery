@@ -39,8 +39,8 @@
                     <td><input type="number" name="peso" value="${electrodomestico.pesoKg}"></td>
                 </tr>
                 <tr>
-                    <td>Tipo:</td>
-                    <td><input type="text" name="tipo" value="${electrodomestico.tipo}"></td>
+                    <td>Beneficio:</td>
+                    <td><input type="text" name="tipo" value="${electrodomestico.beneficio}"></td>
                 </tr>
                
 

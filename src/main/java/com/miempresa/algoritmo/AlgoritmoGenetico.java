@@ -2,6 +2,8 @@
 package com.miempresa.algoritmo;
 
 
+import com.miempresa.bean.ElectrodomesticoBean;
+import com.miempresa.entidades.Electrodomestico;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,9 +12,20 @@ public class AlgoritmoGenetico {
     
     public void algoritmoGenetico() {
 
+        ElectrodomesticoBean electrodomesticoBean = new ElectrodomesticoBean();
+        
         Poblacion poblacion = new Poblacion();
         poblacion.getPoblacion();
 
+        Gen gen = new Gen();
+            
+        
+        for (Electrodomestico electro : electrodomesticoBean.obtenerElectrodomesticos()) {
+            gen.setElectrodomestico(electro);
+            
+        }
+        
+        
         List<Cromosoma> poblacionPrueba = poblacion.getPoblacion();
 
         System.out.println("-----------------------------------------------------------------------");

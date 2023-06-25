@@ -29,7 +29,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Electrodomestico.findAll", query = "SELECT e FROM Electrodomestico e"),
     @NamedQuery(name = "Electrodomestico.findByIdElectrodomestico", query = "SELECT e FROM Electrodomestico e WHERE e.idElectrodomestico = :idElectrodomestico"),
     @NamedQuery(name = "Electrodomestico.findByNombre", query = "SELECT e FROM Electrodomestico e WHERE e.nombre = :nombre"),
-    @NamedQuery(name = "Electrodomestico.findByPesoKg", query = "SELECT e FROM Electrodomestico e WHERE e.pesoKg = :pesoKg")})
+    @NamedQuery(name = "Electrodomestico.findByPesoKg", query = "SELECT e FROM Electrodomestico e WHERE e.pesoKg = :pesoKg"),
+    @NamedQuery(name = "Electrodomestico.findByBeneficio", query = "SELECT e FROM Electrodomestico e WHERE e.beneficio = :beneficio")})
 public class Electrodomestico implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,6 +45,8 @@ public class Electrodomestico implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "peso_kg")
     private BigDecimal pesoKg;
+    @Column(name = "beneficio")
+    private Integer beneficio;
     @OneToMany(mappedBy = "idElectrodomestico")
     private List<EnvioElectrodomestico> envioElectrodomesticoList;
 
@@ -76,6 +79,14 @@ public class Electrodomestico implements Serializable {
 
     public void setPesoKg(BigDecimal pesoKg) {
         this.pesoKg = pesoKg;
+    }
+
+    public Integer getBeneficio() {
+        return beneficio;
+    }
+
+    public void setBeneficio(Integer beneficio) {
+        this.beneficio = beneficio;
     }
 
     public List<EnvioElectrodomestico> getEnvioElectrodomesticoList() {

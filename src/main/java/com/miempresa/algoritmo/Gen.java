@@ -1,13 +1,15 @@
 
 package com.miempresa.algoritmo;
 
+import com.miempresa.entidades.Electrodomestico;
+
 public class Gen {
     private int valor;
-    private Producto producto;
+    private Electrodomestico producto;
     
     public Gen(){
         valor = (Math.random() * 100 > 50)? 1:0;
-        producto = new Producto("Sin Nombre", 0, 0);
+        
     }
 
     public int getValor() {
@@ -18,11 +20,11 @@ public class Gen {
         this.valor = valor;
     }
 
-    public Producto getProducto() {
+    public Electrodomestico getProducto() {
         return producto;
     }
 
-    public void setProducto(Producto producto) {
+    public void setElectrodomestico(Electrodomestico producto) {
         this.producto = producto;
     }
     

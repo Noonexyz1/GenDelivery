@@ -16,7 +16,7 @@
                 <th>Id</th>
                 <th>Nombre</th>
                 <th>Peso</th>
-                <th>Tipo</th>
+                <th>Beneficio</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -25,7 +25,7 @@
                     <td>${item.idElectrodomestico}</td>
                     <td>${item.nombre}</td>
                     <td>${item.pesoKg}</td>
-                    <td>${item.tipo}</td>
+                    <td>${item.beneficio}</td>
                     
                     <td><a href="ElectrodomesticoControlador?action=edit&id=${item.idElectrodomestico}&objeto=electrodomestico">Editar</a></td>
                     <td><a href="ElectrodomesticoControlador?action=delete&id=${item.idElectrodomestico}" onclick="return(confirm('Estas seguro de eliminar???????'))">Eliminar</a></td>

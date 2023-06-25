@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 25-06-2023 a las 01:25:47
+-- Tiempo de generación: 25-06-2023 a las 16:47:17
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `bd_trans`
+-- Base de datos: `bd_transporte`
 --
 
 -- --------------------------------------------------------
@@ -68,65 +68,65 @@ INSERT INTO `camion` (`id_camion`, `modelo`, `capacidad_kg`) VALUES
 CREATE TABLE `electrodomestico` (
   `id_electrodomestico` int(11) NOT NULL,
   `nombre` varchar(50) DEFAULT NULL,
-  `peso_kg` decimal(10,2) DEFAULT NULL
+  `peso_kg` decimal(10,2) DEFAULT NULL,
+  `beneficio` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `electrodomestico`
 --
 
-INSERT INTO `electrodomestico` (`id_electrodomestico`, `nombre`, `peso_kg`) VALUES
-(1, 'Televisor', 10.50),
-(2, 'Refrigerador', 75.20),
-(3, 'Lavadora', 50.00),
-(4, 'Horno eléctrico', 20.70),
-(5, 'Licuadora', 2.30),
-(6, 'Microondas', 12.00),
-(7, 'Aspiradora', 8.90),
-(8, 'Secadora de ropa', 15.60),
-(9, 'Cafetera', 3.10),
-(10, 'Ventilador', 4.50),
-(11, 'Plancha', 2.80),
-(12, 'Batidora', 4.20),
-(13, 'Tostadora', 1.90),
-(14, 'Exprimidor de jugo', 2.50),
-(15, 'Asador eléctrico', 9.70),
-(16, 'Cocina eléctrica', 18.30),
-(17, 'Plancha de cabello', 1.00),
-(18, 'Ventilador de techo', 7.20),
-(19, 'Máquina de coser', 11.80),
-(20, 'Radiograbadora', 6.40),
-(21, 'Calefactor', 5.50),
-(22, 'Equipo de sonido', 8.70),
-(23, 'Robot aspirador', 3.80),
-(24, 'Cámara de seguridad', 2.10),
-(25, 'Proyector', 6.80),
-(26, 'Licuadora de mano', 1.60),
-(27, 'Cepillo eléctrico', 0.90),
-(28, 'Batidora de mano', 1.50),
-(29, 'Freidora eléctrica', 4.40),
-(30, 'Exprimidor manual', 0.80),
-(31, 'Máquina de hacer pan', 5.20),
-(32, 'Hervidor de agua', 1.20),
-(33, 'Tetera eléctrica', 1.80),
-(34, 'Cafetera espresso', 4.60),
-(35, 'Plancha de vapor', 2.20),
-(36, 'Radiodespertador', 0.70),
-(37, 'Reproductor de DVD', 2.90),
-(38, 'Ventilador de mesa', 3.50),
-(39, 'Calentador de agua', 6.10),
-(40, 'Hervidor de arroz', 2.40),
-(41, 'Cortadora de césped', 11.30),
-(42, 'Tostadora de pan', 1.30),
-(43, 'Molino de café', 1.70),
-(44, 'Lavavajillas', 16.90),
-(45, 'Batidora de pie', 4.80),
-(46, 'Procesador de alimentos', 3.70),
-(47, 'Cámara digital', 0.60),
-(48, 'Plancha para el pelo', 1.40),
-(49, 'Cámara deportiva', 0.50),
-(50, 'Amplificador de audio', 9.50),
-(51, 'Cepillo de dientes eléctrico', 0.40);
+INSERT INTO `electrodomestico` (`id_electrodomestico`, `nombre`, `peso_kg`, `beneficio`) VALUES
+(1, 'Televisor', 10.50, 90),
+(2, 'Refrigerador', 75.20, 60),
+(3, 'Lavadora', 50.00, 50),
+(4, 'Horno eléctrico', 20.70, 40),
+(5, 'Licuadora', 2.30, 85),
+(6, 'Microondas', 12.00, 45),
+(7, 'Aspiradora', 8.90, 57),
+(8, 'Secadora de ropa', 15.60, 27),
+(9, 'Cafetera', 3.10, 45),
+(10, 'Ventilador', 4.50, 84),
+(11, 'Plancha', 2.80, 56),
+(12, 'Batidora', 4.20, 87),
+(13, 'Tostadora', 1.90, 23),
+(14, 'Exprimidor de jugo', 2.50, 14),
+(15, 'Asador eléctrico', 9.70, 34),
+(16, 'Cocina eléctrica', 18.30, 76),
+(17, 'Plancha de cabello', 1.00, 46),
+(18, 'Ventilador de techo', 7.20, 98),
+(19, 'Máquina de coser', 11.80, 56),
+(20, 'Radiograbadora', 6.40, 34),
+(21, 'Calefactor', 5.50, 70),
+(22, 'Equipo de sonido', 8.70, 56),
+(23, 'Robot aspirador', 3.80, 85),
+(24, 'Cámara de seguridad', 2.10, 37),
+(25, 'Proyector', 6.80, 85),
+(26, 'Licuadora de mano', 1.60, 34),
+(27, 'Cepillo eléctrico', 0.90, 45),
+(28, 'Batidora de mano', 1.50, 56),
+(29, 'Freidora eléctrica', 4.40, 67),
+(30, 'Exprimidor manual', 0.80, 78),
+(31, 'Máquina de hacer pan', 5.20, 89),
+(32, 'Hervidor de agua', 1.20, 12),
+(33, 'Tetera eléctrica', 1.80, 13),
+(34, 'Cafetera espresso', 4.60, 14),
+(35, 'Plancha de vapor', 2.20, 25),
+(36, 'Radiodespertador', 0.70, 34),
+(37, 'Reproductor de DVD', 2.90, 56),
+(38, 'Ventilador de mesa', 3.50, 67),
+(39, 'Calentador de agua', 6.10, 78),
+(40, 'Hervidor de arroz', 2.40, 67),
+(41, 'Cortadora de césped', 11.30, 89),
+(42, 'Tostadora de pan', 1.30, 89),
+(43, 'Molino de café', 1.70, 89),
+(44, 'Lavavajillas', 16.90, 89),
+(45, 'Batidora de pie', 4.80, 89),
+(46, 'Procesador de alimentos', 3.70, 89),
+(47, 'Cámara digital', 0.60, 56),
+(48, 'Plancha para el pelo', 1.40, 45),
+(49, 'Cámara deportiva', 0.50, 56),
+(50, 'Amplificador de audio', 9.50, 78);
 
 -- --------------------------------------------------------
 
@@ -348,3 +348,13 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+
+
+
+select * 
+from camion, envio, envio_electrodomestico, electrodomestico
+where camion.id_camion = envio.id_camion and envio.id_envio = envio_electrodomestico.id_envio
+ and electrodomestico.id_electrodomestico = envio_electrodomestico.id_electrodomestico;

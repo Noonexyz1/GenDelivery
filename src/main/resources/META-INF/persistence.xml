@@ -3,9 +3,9 @@
   <persistence-unit name="GenDelivery" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.miempresa.entidades.EnvioElectrodomestico</class>
-    <class>com.miempresa.entidades.Electrodomestico</class>
     <class>com.miempresa.entidades.Usuario</class>
     <class>com.miempresa.entidades.Camion</class>
+    <class>com.miempresa.entidades.Electrodomestico</class>
     <class>com.miempresa.entidades.Envio</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
@@ -13,7 +13,6 @@
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value=""/>
-      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>
