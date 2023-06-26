@@ -151,7 +151,7 @@ public class ManejadorBean {
                 int capacidadCamion = camion.getCapacidadKg().intValue();
                 
                 AlgoritmoGenetico poblacion = new AlgoritmoGenetico();
-                poblacion.algoritmoGenetico();
+                poblacion.algoritmoGenetico(camion.getCapacidadKg().intValue());
                 
                 atributoName = "camiones";
                 jspPath = "camion.jsp";

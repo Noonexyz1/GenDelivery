@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class AlgoritmoGenetico {
     
-    public void algoritmoGenetico() {
+    public void algoritmoGenetico(int capacidadMaximaCamion) {
 
         ElectrodomesticoBean electrodomesticoBean = new ElectrodomesticoBean();
         
@@ -40,34 +40,30 @@ public class AlgoritmoGenetico {
         }
         
         poblacion.setPoblacion(cromosomas);
-        /*Hasta aqui funciona*/
-       
         
         
+        /*se supone que hasta aqui ya tengo toda la poblacion con los cromosomas dentro y lo genes tambien*/
         
-        
-        /*se supone que hasta aqui ya tengo toda lapoblacion con los cromosomas dentro y lo genes tambien*/
-        
-        
-        poblacion.getPoblacion();
         List<Cromosoma> poblacionPrueba = poblacion.getPoblacion();
-
-        
         System.out.println("-----------------------------------------------------------------------");
+        int tamCromosoma = poblacionPrueba.get(0).getCromosoma().size();
+        /*debe mostrarme tamaño 50*/
+        /*se muestra toda la poblacion con las activaciones de 1 o 0*/
         for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
+            for (int j = 0; j < tamCromosoma; j++) {
                 int valor = poblacionPrueba.get(i).getCromosoma().get(j).getValor();
                 System.out.print(valor + ",");
             }
             System.out.println();
         }
-
+        
+        /*Mostramos los valores de aquellos que estan activadas con 1, los demas son 0*/
         System.out.println("-----------------------------------------------------------------------");
         for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
+            for (int j = 0; j < tamCromosoma; j++) {
                 int valor = poblacionPrueba.get(i).getCromosoma().get(j).getValor();
                 if (valor == 1) {
-                    System.out.print(poblacionPrueba.get(i).getCromosoma().get(j).getProducto().getNombre() + ", \t");
+                    System.out.print(   poblacionPrueba.get(i).getCromosoma().get(j).getProducto().getNombre() + ", \t"   );
                 } else {
                     System.out.print("      " + valor + ", \t");
 
@@ -75,20 +71,21 @@ public class AlgoritmoGenetico {
             }
             System.out.println();
         }
-
+        
+        
+        /*aqui empieza el ALGORITMO GENETICO*/
         for (int generacion = 0; generacion < 200; generacion++) {
             System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX GENERACION NUMERO: " + (generacion + 1) + " XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx");
-
             System.out.println("-----------------------------------------------------------------------");
             /*Hacemos la penalizacion*/
-            int capacidadMaxima = 1000;
+            int capacidadMaxima = capacidadMaximaCamion;
             int sumatoriaDePesos = 0;
             int sumatoriaDeBeneficios = 0;
             int penalizacion = 0;
             int funcionFiteness = 0;
 
             for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 5; j++) {
+                for (int j = 0; j < tamCromosoma; j++) {
                     int valor = poblacionPrueba.get(i).getCromosoma().get(j).getValor();
                     if (valor == 1) {
 
@@ -115,9 +112,11 @@ public class AlgoritmoGenetico {
 
             }
 
+            
+            /*mostramos el fitness*/
             System.out.println("-----------------------------------------------------------------------");
             for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 5; j++) {
+                for (int j = 0; j < tamCromosoma; j++) {
                     int valor = poblacionPrueba.get(i).getCromosoma().get(j).getValor();
                     System.out.print(valor + ",");
                 }
@@ -125,11 +124,15 @@ public class AlgoritmoGenetico {
                 System.out.println();
             }
 
+            
+         
+            
+            
             System.out.println("-----------------------------------------------------------------------");
             /*volvemos a signarle al mismo listadePolblacion la misma lista, pero esta vez ordenada*/
             poblacionPrueba = poblacionPrueba.stream().sorted(Comparator.comparingInt(Cromosoma::getFitness).reversed()).collect(Collectors.toList());
             for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 5; j++) {
+                for (int j = 0; j < tamCromosoma; j++) {
                     int valor = poblacionPrueba.get(i).getCromosoma().get(j).getValor();
                     System.out.print(valor + ",");
                 }
@@ -137,75 +140,81 @@ public class AlgoritmoGenetico {
                 System.out.println();
             }
 
+            
+            
+            
+            
             /*Hacemos los cruzes con los mejores, osea los dos primero de la lisa de la poblacion*/
             System.out.println("-----------------------------------------------------------------------");
             Cromosoma mejor1 = poblacionPrueba.get(0);
             Cromosoma mejor2 = poblacionPrueba.get(1);
-
-            int valor1 = 0;
-            int valor2 = 0;
-            int valor3 = 0;
-
-            int valor4 = 0;
-            int valor5 = 0;
-
-            /*del mejor1 sacamos los tres valores*/
-            valor1 = mejor1.getCromosoma().get(0).getValor();
-            valor2 = mejor1.getCromosoma().get(1).getValor();
-            valor3 = mejor1.getCromosoma().get(2).getValor();
-            /*del mejor2 sacamos los dos ultimos valores*/
-            valor4 = mejor2.getCromosoma().get(3).getValor();
-            valor5 = mejor2.getCromosoma().get(4).getValor();
-
-            /*Cruzados*/
-            Cromosoma hijo1 = new Cromosoma();
-            hijo1.getCromosoma().get(0).setValor(valor1);
-            hijo1.getCromosoma().get(1).setValor(valor2);
-            hijo1.getCromosoma().get(2).setValor(valor3);
-
-            hijo1.getCromosoma().get(3).setValor(valor4);
-            hijo1.getCromosoma().get(4).setValor(valor5);
-
-            /*del mejor2 sacamos los tres valores*/
-            valor1 = mejor2.getCromosoma().get(0).getValor();
-            valor2 = mejor2.getCromosoma().get(1).getValor();
-            valor3 = mejor2.getCromosoma().get(2).getValor();
-            /*del mejor1 sacamos los dos ultimos valores*/
-            valor4 = mejor1.getCromosoma().get(3).getValor();
-            valor5 = mejor1.getCromosoma().get(4).getValor();
-
-            Cromosoma hijo2 = new Cromosoma();
-            hijo2.getCromosoma().get(0).setValor(valor1);
-            hijo2.getCromosoma().get(1).setValor(valor2);
-            hijo2.getCromosoma().get(2).setValor(valor3);
-
-            hijo2.getCromosoma().get(3).setValor(valor4);
-            hijo2.getCromosoma().get(4).setValor(valor5);
 
             /*Mostramos los dos nuevos hjos*/
             System.out.println("MEJORES CROMOSOMAS");
             mejor1.getCromosoma().stream().forEach(m1 -> System.out.print(m1.getValor() + ","));
             System.out.println();
             mejor2.getCromosoma().stream().forEach(m2 -> System.out.print(m2.getValor() + ","));
-
-            System.out.println();
-            System.out.println("LOS HIJOS");
-
-            hijo1.getCromosoma().stream().forEach(h1 -> System.out.print(h1.getValor() + ","));
-            System.out.println();
-            hijo2.getCromosoma().stream().forEach(h2 -> System.out.print(h2.getValor() + ","));
-
-
+            
+            
+            
+            
             /*Ejemplo, mostrar los peores de la poblacion*/
             Cromosoma peor1 = poblacionPrueba.get(5);
             Cromosoma peor2 = poblacionPrueba.get(4);
-
+            
             System.out.println();
             System.out.println("PEORES CROMOSOMAS");
             peor1.getCromosoma().stream().forEach(p1 -> System.out.print(p1.getValor() + ","));
             System.out.println();
             peor2.getCromosoma().stream().forEach(p2 -> System.out.print(p2.getValor() + ","));
+            
+            
+            
+            /* aqui debo hacer los cruzes*/
+            Cromosoma hijo1 = new Cromosoma();
+            Cromosoma hijo2 = new Cromosoma();
+            
+            int mitad = tamCromosoma / 2;
+            
+            List<Gen> genes = new ArrayList<>();
+            for (int i = 0; i < tamCromosoma; i++) {
+                if(i < mitad){
+                    genes.add(mejor1.getCromosoma().get(i));
+                } else {
+                    genes.add(mejor2.getCromosoma().get(i));
+                }
+                
+            }
+            hijo1.setCromosoma(genes);
+            
+            
+            /*Para el hijo 2 faltaria otro for*/
+            List<Gen> genes1 = new ArrayList<>();
+            for (int i = 0; i < tamCromosoma; i++) {
+                if (i < mitad) {
+                    genes1.add(mejor2.getCromosoma().get(i));
+                } else {
+                    genes1.add(mejor1.getCromosoma().get(i));
+                }
 
+            }
+            hijo2.setCromosoma(genes1);
+            
+            
+            /*falta probar hasta aqui*/
+            System.out.println();
+            System.out.println("Hijos CROMOSOMAS");
+            hijo1.getCromosoma().stream().forEach(p1 -> System.out.print(p1.getValor() + ","));
+            System.out.println();
+            hijo2.getCromosoma().stream().forEach(p2 -> System.out.print(p2.getValor() + ","));
+            
+            
+            
+            /*Hasta aqui funciona el Algoritmo Genetico*/
+            
+            
+            
+            
             System.out.println();
             System.out.println("-----------------------------------------------------------------------");
             System.out.println("HIJOS INTRODUCIDOS");
@@ -214,7 +223,7 @@ public class AlgoritmoGenetico {
             poblacionPrueba.get(5).setCromosoma(hijo1.getCromosoma());
             /*Mostrar*/
             for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 5; j++) {
+                for (int j = 0; j < tamCromosoma; j++) {
                     int valor = poblacionPrueba.get(i).getCromosoma().get(j).getValor();
                     System.out.print(valor + ",");
                 }
@@ -225,15 +234,32 @@ public class AlgoritmoGenetico {
             System.out.println();
             System.out.println("-----------------------------------------------------------------------");
             System.out.println("MUTAMOS UN CROMOSOMA");
-            Cromosoma cromo = poblacionPrueba.get((int) Math.random() * 6);
-            int valorAleatorio = (int) (Math.random() * 5);
-            System.out.println("VALOR ALEATORIO " + valorAleatorio);
+            
+            int valorAletorioPoblacion = (int) (Math.random() * 6 + 1);
+            
+            System.out.println("VALOR ALEATORIO POBLACION: " + valorAletorioPoblacion);
+            Cromosoma cromo = poblacionPrueba.get(valorAletorioPoblacion);
+            
+            int valorAleatorio = (int) (Math.random() * tamCromosoma);
+            System.out.println("VALOR ALEATORIO CROMOSOMA: " + valorAleatorio);
 
-            cromo.getCromosoma().set(valorAleatorio, new Gen());
-
+            Gen genPrueba = cromo.getCromosoma().get(valorAleatorio);
+            int valorBinarioAleatorio = (Math.random() * 100 > 50) ? 1 : 0;
+            
+            genPrueba.setValor(valorBinarioAleatorio);
+            
+            
+            cromo.getCromosoma().set(valorAleatorio, genPrueba);
+            /*Lo hace*/
+            /*Funciona*/
+            
+            
+            ///////////////////////////////////////////////////////////
+            
+            
             /*Mostrar*/
             for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 5; j++) {
+                for (int j = 0; j < tamCromosoma; j++) {
                     int valor = poblacionPrueba.get(i).getCromosoma().get(j).getValor();
                     System.out.print(valor + ",");
                 }
