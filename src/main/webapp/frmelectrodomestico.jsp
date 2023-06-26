@@ -40,7 +40,7 @@
                 </tr>
                 <tr>
                     <td>Beneficio:</td>
-                    <td><input type="text" name="tipo" value="${electrodomestico.beneficio}"></td>
+                    <td><input type="number" name="beneficio" value="${electrodomestico.beneficio}"></td>
                 </tr>
                
 

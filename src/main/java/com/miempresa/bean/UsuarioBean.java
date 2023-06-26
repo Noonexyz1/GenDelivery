@@ -10,6 +10,7 @@ import com.miempresa.entidades.Usuario;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -40,6 +41,29 @@ public class UsuarioBean {
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    void addUsuario(Usuario usuario) {
+        usuarioJpaController.create(usuario);
+    }
+
+    void editarUsuario(Usuario usuario) throws Exception {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        
+        Usuario usuarioEdit = em.find(Usuario.class, usuario.getIdUsuario());
+        
+        usuarioEdit.setNombre(usuario.getNombre());
+        usuarioEdit.setContrasena(usuario.getContrasena());
+        usuarioEdit.setCorreo(usuario.getCorreo());
+        
+        
+        
+        em.merge(usuarioEdit);
+        em.getTransaction().commit();
+        em.close();
+
+        
     }
     
     

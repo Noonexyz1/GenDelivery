@@ -144,13 +144,45 @@ public class ManejadorBean {
     }
 
     
-    public void evaluarAccion(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void evaluarAccion(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
         if (request.getRequestURI().equals("/GenDelivery/CamionControlador")) {
             
+            String sdf = request.getParameter("id");
+            
+            if (request.getParameter("id").equals("")) {
+                
+                Camion camion = new Camion();
+                camion.setModelo(request.getParameter("modelo"));
+                camion.setCapacidadKg(new BigDecimal(request.getParameter("capacidad")));
+
+                CamionBean bean = new CamionBean();
+                bean.addCamion(camion);
+                
+                String contextPath = request.getContextPath();
+                response.sendRedirect(contextPath + "/CamionControlador");
+                
+            } else {
+                
+                String sddd = request.getParameter("id");
+                
+                Camion camion = new Camion();
+                camion.setIdCamion(Integer.valueOf(request.getParameter("id")));
+                camion.setModelo(request.getParameter("modelo"));
+                camion.setCapacidadKg((new BigDecimal(request.getParameter("capacidad"))));
+
+                CamionBean bean = new CamionBean();
+                bean.editarCamion(camion);
+                
+                String contextPath = request.getContextPath();
+                response.sendRedirect(contextPath + "/CamionControlador");
+            }
             
             
         } else if (request.getRequestURI().equals("/GenDelivery/ReporteControlador")) {
-            if (request.getParameter("action").equals("add")) {
+            
+            String a = request.getParameter("action");
+            
+            if (request.getParameter("action") == null) {
                 String parametro = request.getParameter("idCamion");
                 
                 Camion camion = camionBean.obtenerCamion(Integer.parseInt(parametro));
@@ -192,10 +224,63 @@ public class ManejadorBean {
             }
         }
         else if (request.getRequestURI().equals("/GenDelivery/ElectrodomesticoControlador")) {
+            
+            String a = request.getParameter("id");
+            
+            if (request.getParameter("id").equals("")) {
+                Electrodomestico electro = new Electrodomestico();
+                electro.setNombre(request.getParameter("nombre"));
+                electro.setPesoKg(new BigDecimal(request.getParameter("peso")));
+                electro.setBeneficio(Integer.valueOf(request.getParameter("beneficio")));
 
+                ElectrodomesticoBean bean = new ElectrodomesticoBean();
+                bean.addElectrodomestico(electro);
+                
+                String contextPath = request.getContextPath();
+                response.sendRedirect(contextPath + "/ElectrodomesticoControlador");
+            } else {
+                
+                String av = request.getParameter("id");
+                        
+                Electrodomestico electro = new Electrodomestico();
+                electro.setIdElectrodomestico(Integer.valueOf(request.getParameter("id")));
+                electro.setNombre(request.getParameter("nombre"));
+                electro.setPesoKg(new BigDecimal(request.getParameter("peso")));
+                electro.setBeneficio(Integer.valueOf(request.getParameter("beneficio")));
+
+                ElectrodomesticoBean bean = new ElectrodomesticoBean();
+                bean.editarElectrodomestico(electro);
+                
+                String contextPath = request.getContextPath();
+                response.sendRedirect(contextPath + "/ElectrodomesticoControlador");
+            }
         } 
-        if (request.getRequestURI().equals("/GenDelivery/UsuarioControlador")) {
+        else if (request.getRequestURI().equals("/GenDelivery/UsuarioControlador")) {
+            if (request.getParameter("id").equals("")) {
+                Usuario usuario = new Usuario();
+                usuario.setNombre(request.getParameter("nombre"));
+                usuario.setContrasena(request.getParameter("contrasena"));
+                usuario.setCorreo(request.getParameter("correo"));
 
+                UsuarioBean bean = new UsuarioBean();
+                bean.addUsuario(usuario);
+                
+                String contextPath = request.getContextPath();
+                response.sendRedirect(contextPath + "/UsuarioControlador");
+                
+            } else {
+                Usuario usuario = new Usuario();
+                usuario.setIdUsuario(Integer.valueOf(request.getParameter("id")));
+                usuario.setNombre(request.getParameter("nombre"));
+                usuario.setContrasena(request.getParameter("contrasena"));
+                usuario.setCorreo(request.getParameter("correo"));
+
+                UsuarioBean bean = new UsuarioBean();
+                bean.editarUsuario(usuario);
+                
+                String contextPath = request.getContextPath();
+                response.sendRedirect(contextPath + "/UsuarioControlador");
+            }
         }
     }
 

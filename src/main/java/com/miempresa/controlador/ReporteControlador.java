@@ -5,6 +5,8 @@ import com.miempresa.bean.CamionBean;
 import com.miempresa.bean.ManejadorBean;
 import com.miempresa.bean.ReporteBean;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,8 +37,12 @@ public class ReporteControlador extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ManejadorBean manejadorBean = new ManejadorBean(new CamionBean());
-        manejadorBean.evaluarAccion(request, response);
+        try {
+            ManejadorBean manejadorBean = new ManejadorBean(new CamionBean());
+            manejadorBean.evaluarAccion(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ReporteControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 

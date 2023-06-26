@@ -19,7 +19,7 @@
         </h1>
 
 
-        <form action="ReporteControlador?action=add" method="POST">
+        <form action="ReporteControlador" method="POST">
 
             <table>
                 <tr>

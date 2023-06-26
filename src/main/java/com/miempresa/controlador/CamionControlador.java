@@ -3,6 +3,8 @@ package com.miempresa.controlador;
 import com.miempresa.bean.CamionBean;
 import com.miempresa.bean.ManejadorBean;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,7 +33,12 @@ public class CamionControlador extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        try {
+            ManejadorBean manejadorBean = new ManejadorBean(new CamionBean());
+            manejadorBean.evaluarAccion(request, response);
+        } catch (Exception ex) {
+           System.out.println("ERROR: "  + ex.getMessage());
+        }
     }
 
 }
