@@ -209,12 +209,6 @@ public class AlgoritmoGenetico {
             hijo2.getCromosoma().stream().forEach(p2 -> System.out.print(p2.getValor() + ","));
             
             
-            
-            /*Hasta aqui funciona el Algoritmo Genetico*/
-            
-            
-            
-            
             System.out.println();
             System.out.println("-----------------------------------------------------------------------");
             System.out.println("HIJOS INTRODUCIDOS");
@@ -231,31 +225,18 @@ public class AlgoritmoGenetico {
                 System.out.println();
             }
 
+            
+            /*HASTA AQUI FUNCIONA*/
+            
             System.out.println();
             System.out.println("-----------------------------------------------------------------------");
             System.out.println("MUTAMOS UN CROMOSOMA");
             
-            int valorAletorioPoblacion = (int) (Math.random() * 6 + 1);
-            
-            System.out.println("VALOR ALEATORIO POBLACION: " + valorAletorioPoblacion);
-            Cromosoma cromo = poblacionPrueba.get(valorAletorioPoblacion);
-            
-            int valorAleatorio = (int) (Math.random() * tamCromosoma);
-            System.out.println("VALOR ALEATORIO CROMOSOMA: " + valorAleatorio);
-
-            Gen genPrueba = cromo.getCromosoma().get(valorAleatorio);
+            int valorAletorioPoblacion = (int) (Math.random() * 5 + 1);
+            int valorAleatorioCromosoma = (int) (Math.random() * tamCromosoma);
             int valorBinarioAleatorio = (Math.random() * 100 > 50) ? 1 : 0;
             
-            genPrueba.setValor(valorBinarioAleatorio);
-            
-            
-            cromo.getCromosoma().set(valorAleatorio, genPrueba);
-            /*Lo hace*/
-            /*Funciona*/
-            
-            
-            ///////////////////////////////////////////////////////////
-            
+            poblacionPrueba.get(valorAletorioPoblacion).getCromosoma().get(valorAleatorioCromosoma).setValor(valorBinarioAleatorio);
             
             /*Mostrar*/
             for (int i = 0; i < 6; i++) {
@@ -267,11 +248,15 @@ public class AlgoritmoGenetico {
                 System.out.println();
             }
 
+            
         }
 
+        
+        
+        
         System.out.println("--------------------RESULTADO-------------------------------");
         for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
+            for (int j = 0; j < tamCromosoma; j++) {
                 int valor = poblacionPrueba.get(i).getCromosoma().get(j).getValor();
                 if (valor == 1) {
                     System.out.print(poblacionPrueba.get(i).getCromosoma().get(j).getProducto().getNombre() + ", \t");
@@ -283,6 +268,8 @@ public class AlgoritmoGenetico {
             System.out.println();
         }
 
+        System.out.println("FIN DEL ALGORITMO BORRAR ESTE COMENTARIO");
+        
     }
     
 }
