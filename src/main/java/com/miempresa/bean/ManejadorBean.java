@@ -3,9 +3,14 @@ package com.miempresa.bean;
 import com.miempresa.algoritmo.AlgoritmoGenetico;
 import com.miempresa.entidades.Camion;
 import com.miempresa.entidades.Electrodomestico;
+import com.miempresa.entidades.Envio;
+import com.miempresa.entidades.EnvioElectrodomestico;
 import com.miempresa.entidades.ModeloReporteEnvio;
 import com.miempresa.entidades.Usuario;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -139,7 +144,7 @@ public class ManejadorBean {
     }
 
     
-    public void evaluarAccion(HttpServletRequest request, HttpServletResponse response) {
+    public void evaluarAccion(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (request.getRequestURI().equals("/GenDelivery/CamionControlador")) {
             
             
@@ -147,15 +152,41 @@ public class ManejadorBean {
         } else if (request.getRequestURI().equals("/GenDelivery/ReporteControlador")) {
             if (request.getParameter("action").equals("add")) {
                 String parametro = request.getParameter("idCamion");
-                Camion camion = camionBean.obtenerCamiones(Integer.parseInt(parametro));
+                
+                Camion camion = camionBean.obtenerCamion(Integer.parseInt(parametro));
                 int capacidadCamion = camion.getCapacidadKg().intValue();
                 
-                AlgoritmoGenetico poblacion = new AlgoritmoGenetico();
-                poblacion.algoritmoGenetico(camion.getCapacidadKg().intValue());
                 
-                atributoName = "camiones";
-                jspPath = "camion.jsp";
-                objetoEnvio = camionBean.obtenerCamiones();
+                /*Aqui va mi algoritmo*/
+                AlgoritmoGenetico poblacion = new AlgoritmoGenetico();
+                List<Electrodomestico> elestrodesticos = poblacion.algoritmoGenetico(camion.getCapacidadKg().intValue());
+                /*Aqui va mi algoritmo*/
+                
+                
+                /*llenamos la tabla envio*/
+                Envio envio = new Envio();
+                envio.setIdCamion(camion);
+                Date fecha = new Date();
+                envio.setFechaEnvio(fecha);
+                
+                EnvioBean envioBean = new EnvioBean();
+                envioBean.addEnvio(envio);
+                
+                
+                
+                /*llenamos la tabla Envio_Electrodomestico*/
+                for (int i = 0; i < elestrodesticos.size() - 1; i++) {
+                    EnvioElectrodomestico ee = new EnvioElectrodomestico();
+                    ee.setIdEnvio(envioBean.obtenerEnvioUltimo());
+                    ee.setIdElectrodomestico(elestrodesticos.get(i));
+                    
+                    EnvioElectroBean eeBean = new EnvioElectroBean();
+                    eeBean.addEe(ee);
+                }
+                
+                String contextPath = request.getContextPath();
+                response.sendRedirect(contextPath + "/ReporteControlador");
+                
             } else {
                 
             }

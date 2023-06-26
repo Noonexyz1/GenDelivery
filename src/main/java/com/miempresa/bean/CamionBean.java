@@ -39,7 +39,7 @@ public class CamionBean {
         }
     }
 
-    public Camion obtenerCamiones(int parseInt) {
+    public Camion obtenerCamion(int parseInt) {
         return camionJpaController.findCamion(parseInt);
     }
  

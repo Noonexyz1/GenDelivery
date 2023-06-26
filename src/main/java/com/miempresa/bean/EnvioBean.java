@@ -38,6 +38,15 @@ public class EnvioBean {
             Logger.getLogger(EnvioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void addEnvio(Envio envio) {
+        envioJpaController.create(envio);
+    }
+
+    public Envio obtenerEnvioUltimo() {
+        Envio ee = envioJpaController.findEnvio(envioJpaController.getEnvioCount());
+        return ee; 
+    }
     
     
 }

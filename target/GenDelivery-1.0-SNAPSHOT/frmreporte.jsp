@@ -44,13 +44,11 @@
                         
                     </td>
                     
-                    <td><input type="submit" value="Enviar"></td> 
+                    <td><input type="submit" value="Cargar y Enviar"></td> 
                     
                 </tr>
                 
                     
-               
-                
             </table>
 
 

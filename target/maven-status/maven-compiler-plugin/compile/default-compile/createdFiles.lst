@@ -1,4 +1,5 @@
 com\miempresa\bean\ElectrodomesticoBean.class
+com\miempresa\bean\EnvioElectroBean.class
 com\miempresa\dao\CamionJpaController.class
 com\miempresa\dao\EnvioElectrodomesticoJpaController.class
 com\miempresa\algoritmo\Poblacion.class

@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class AlgoritmoGenetico {
     
-    public void algoritmoGenetico(int capacidadMaximaCamion) {
+    public List<Electrodomestico> algoritmoGenetico(int capacidadMaximaCamion) {
 
         ElectrodomesticoBean electrodomesticoBean = new ElectrodomesticoBean();
         
@@ -226,7 +226,7 @@ public class AlgoritmoGenetico {
             }
 
             
-            /*HASTA AQUI FUNCIONA*/
+           
             
             System.out.println();
             System.out.println("-----------------------------------------------------------------------");
@@ -269,6 +269,26 @@ public class AlgoritmoGenetico {
         }
 
         System.out.println("FIN DEL ALGORITMO BORRAR ESTE COMENTARIO");
+        
+        
+        
+        List<Electrodomestico> listaElecEnvio = new ArrayList<>();
+        
+        for (int i = 0; i < tamCromosoma; i++) {
+            if (poblacionPrueba.get(1).getCromosoma().get(i).getValor() == 1) {
+
+                Electrodomestico electrodomestico = poblacionPrueba.get(1).getCromosoma().get(i).getProducto();
+                listaElecEnvio.add(electrodomestico);
+
+            }
+
+        }
+        
+        
+        //listaElecEnvio.stream().forEach(a -> System.out.print(a.getNombre()));
+        
+        return listaElecEnvio;
+        /*HASTA AQUI FUNCIONA*/
         
     }
     

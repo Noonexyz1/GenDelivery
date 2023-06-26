@@ -8,6 +8,7 @@ C:\Users\ANGEL\Downloads\WORKSPACE\GenDelivery\src\main\java\com\miempresa\bean\
 C:\Users\ANGEL\Downloads\WORKSPACE\GenDelivery\src\main\java\com\miempresa\dao\exceptions\NonexistentEntityException.java
 C:\Users\ANGEL\Downloads\WORKSPACE\GenDelivery\src\main\java\com\miempresa\entidades\ModeloReporteEnvio.java
 C:\Users\ANGEL\Downloads\WORKSPACE\GenDelivery\src\main\java\com\miempresa\algoritmo\Cromosoma.java
+C:\Users\ANGEL\Downloads\WORKSPACE\GenDelivery\src\main\java\com\miempresa\bean\EnvioElectroBean.java
 C:\Users\ANGEL\Downloads\WORKSPACE\GenDelivery\src\main\java\com\miempresa\controlador\ReporteControlador.java
 C:\Users\ANGEL\Downloads\WORKSPACE\GenDelivery\src\main\java\com\miempresa\entidades\EnvioElectrodomestico.java
 C:\Users\ANGEL\Downloads\WORKSPACE\GenDelivery\src\main\java\com\miempresa\dao\ElectrodomesticoJpaController.java
