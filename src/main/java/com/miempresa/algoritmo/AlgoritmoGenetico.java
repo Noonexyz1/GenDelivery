@@ -89,7 +89,7 @@ public class AlgoritmoGenetico {
                     int valor = poblacionPrueba.get(i).getCromosoma().get(j).getValor();
                     if (valor == 1) {
 
-                        //sumatoriaDePesos = sumatoriaDePesos + poblacionPrueba.get(i).getCromosoma().get(j).getProducto().getPeso();
+                        sumatoriaDePesos = sumatoriaDePesos + poblacionPrueba.get(i).getCromosoma().get(j).getProducto().getPesoKg().intValue();
                         sumatoriaDeBeneficios = sumatoriaDeBeneficios + poblacionPrueba.get(i).getCromosoma().get(j).getProducto().getBeneficio();
                         if (sumatoriaDePesos > capacidadMaxima) {
                             /*hallar la penalizacion*/
