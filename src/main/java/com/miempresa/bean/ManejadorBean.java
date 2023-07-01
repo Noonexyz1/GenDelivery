@@ -207,7 +207,7 @@ public class ManejadorBean {
                 
                 
                 /*llenamos la tabla Envio_Electrodomestico*/
-                for (int i = 0; i < elestrodesticos.size() - 1; i++) {
+                for (int i = 0; i < elestrodesticos.size(); i++) {
                     EnvioElectrodomestico ee = new EnvioElectrodomestico();
                     ee.setIdEnvio(envioBean.obtenerEnvioUltimo());
                     ee.setIdElectrodomestico(elestrodesticos.get(i));

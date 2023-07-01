@@ -81,52 +81,7 @@ INSERT INTO `electrodomestico` (`id_electrodomestico`, `nombre`, `peso_kg`, `ben
 (2, 'Refrigerador', 75.20, 60),
 (3, 'Lavadora', 50.00, 50),
 (4, 'Horno eléctrico', 20.70, 40),
-(5, 'Licuadora', 2.30, 85),
-(6, 'Microondas', 12.00, 45),
-(7, 'Aspiradora', 8.90, 57),
-(8, 'Secadora de ropa', 15.60, 27),
-(9, 'Cafetera', 3.10, 45),
-(10, 'Ventilador', 4.50, 84),
-(11, 'Plancha', 2.80, 56),
-(12, 'Batidora', 4.20, 87),
-(13, 'Tostadora', 1.90, 23),
-(14, 'Exprimidor de jugo', 2.50, 14),
-(15, 'Asador eléctrico', 9.70, 34),
-(16, 'Cocina eléctrica', 18.30, 76),
-(17, 'Plancha de cabello', 1.00, 46),
-(18, 'Ventilador de techo', 7.20, 98),
-(19, 'Máquina de coser', 11.80, 56),
-(20, 'Radiograbadora', 6.40, 34),
-(21, 'Calefactor', 5.50, 70),
-(22, 'Equipo de sonido', 8.70, 56),
-(23, 'Robot aspirador', 3.80, 85),
-(24, 'Cámara de seguridad', 2.10, 37),
-(25, 'Proyector', 6.80, 85),
-(26, 'Licuadora de mano', 1.60, 34),
-(27, 'Cepillo eléctrico', 0.90, 45),
-(28, 'Batidora de mano', 1.50, 56),
-(29, 'Freidora eléctrica', 4.40, 67),
-(30, 'Exprimidor manual', 0.80, 78),
-(31, 'Máquina de hacer pan', 5.20, 89),
-(32, 'Hervidor de agua', 1.20, 12),
-(33, 'Tetera eléctrica', 1.80, 13),
-(34, 'Cafetera espresso', 4.60, 14),
-(35, 'Plancha de vapor', 2.20, 25),
-(36, 'Radiodespertador', 0.70, 34),
-(37, 'Reproductor de DVD', 2.90, 56),
-(38, 'Ventilador de mesa', 3.50, 67),
-(39, 'Calentador de agua', 6.10, 78),
-(40, 'Hervidor de arroz', 2.40, 67),
-(41, 'Cortadora de césped', 11.30, 89),
-(42, 'Tostadora de pan', 1.30, 89),
-(43, 'Molino de café', 1.70, 89),
-(44, 'Lavavajillas', 16.90, 89),
-(45, 'Batidora de pie', 4.80, 89),
-(46, 'Procesador de alimentos', 3.70, 89),
-(47, 'Cámara digital', 0.60, 56),
-(48, 'Plancha para el pelo', 1.40, 45),
-(49, 'Cámara deportiva', 0.50, 56),
-(50, 'Amplificador de audio', 9.50, 78);
+(5, 'Licuadora', 2.30, 85);
 
 -- --------------------------------------------------------
 
@@ -144,28 +99,6 @@ CREATE TABLE `envio` (
 -- Volcado de datos para la tabla `envio`
 --
 
-INSERT INTO `envio` (`id_envio`, `id_camion`, `fecha_envio`) VALUES
-(1, 1, '2023-06-25'),
-(2, 2, '2023-06-25'),
-(3, 3, '2023-06-26'),
-(4, 1, '2023-06-26'),
-(5, 2, '2023-06-27'),
-(6, 3, '2023-06-27'),
-(7, 4, '2023-06-28'),
-(8, 1, '2023-06-28'),
-(9, 2, '2023-06-29'),
-(10, 3, '2023-06-29'),
-(11, 4, '2023-06-30'),
-(12, 1, '2023-06-30'),
-(13, 2, '2023-07-01'),
-(14, 3, '2023-07-01'),
-(15, 4, '2023-07-02'),
-(16, 1, '2023-07-02'),
-(17, 2, '2023-07-03'),
-(18, 3, '2023-07-03'),
-(19, 4, '2023-07-04'),
-(20, 1, '2023-07-04');
-
 -- --------------------------------------------------------
 
 --
@@ -182,57 +115,6 @@ CREATE TABLE `envio_electrodomestico` (
 -- Volcado de datos para la tabla `envio_electrodomestico`
 --
 
-INSERT INTO `envio_electrodomestico` (`id_envio_electrodomestico`, `id_envio`, `id_electrodomestico`) VALUES
-(1, 1, 3),
-(2, 2, 6),
-(3, 3, 2),
-(4, 4, 4),
-(5, 5, 5),
-(6, 6, 9),
-(7, 7, 11),
-(8, 8, 14),
-(9, 9, 16),
-(10, 10, 19),
-(11, 11, 21),
-(12, 12, 23),
-(13, 13, 25),
-(14, 14, 29),
-(15, 15, 31),
-(16, 16, 33),
-(17, 17, 35),
-(18, 18, 38),
-(19, 19, 40),
-(20, 20, 42),
-(21, 1, 1),
-(22, 2, 7),
-(23, 3, 12),
-(24, 4, 15),
-(25, 5, 17),
-(26, 6, 20),
-(27, 7, 24),
-(28, 8, 26),
-(29, 9, 27),
-(30, 10, 30),
-(31, 11, 32),
-(32, 12, 36),
-(33, 13, 37),
-(34, 14, 39),
-(35, 15, 43),
-(36, 16, 44),
-(37, 17, 45),
-(38, 18, 47),
-(39, 19, 48),
-(40, 20, 50),
-(41, 1, 8),
-(42, 2, 10),
-(43, 3, 13),
-(44, 4, 18),
-(45, 5, 22),
-(46, 6, 28),
-(47, 7, 34),
-(48, 8, 41),
-(49, 9, 46),
-(50, 10, 49);
 
 -- --------------------------------------------------------
 
@@ -307,19 +189,19 @@ ALTER TABLE `camion`
 -- AUTO_INCREMENT de la tabla `electrodomestico`
 --
 ALTER TABLE `electrodomestico`
-  MODIFY `id_electrodomestico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id_electrodomestico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `envio`
 --
 ALTER TABLE `envio`
-  MODIFY `id_envio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_envio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `envio_electrodomestico`
 --
 ALTER TABLE `envio_electrodomestico`
-  MODIFY `id_envio_electrodomestico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id_envio_electrodomestico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
