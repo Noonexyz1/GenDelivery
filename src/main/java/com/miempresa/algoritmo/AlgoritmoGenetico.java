@@ -68,7 +68,9 @@ public class AlgoritmoGenetico {
         }
 
         /*aqui empieza el ALGORITMO GENETICO*/
-        for (int generacion = 0; generacion < 200; generacion++) {
+        /*DEBERIA HACER UNA IMPLEMENTACION DONDE las iteraciones se detengan cuando todos los fitness sean iguales*/
+        /*PORQUE 200 tambien parece demacido, la poblacion se atrofia o se matan entre si, o mata la solucion que se dio en la generacion 50 por ejemplo*/
+        for (int generacion = 0; generacion < 50; generacion++) {
 
             System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX GENERACION NUMERO: " + (generacion + 1) + " XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx");
             System.out.println("----------------PESO " + capacidadMaximaCamion + "-------------------------------------------------------");
@@ -80,23 +82,23 @@ public class AlgoritmoGenetico {
             int funcionFiteness = 0;
 
             for (int i = 0; i < 6; i++) {
-                boolean excedeCapacidad = false;
                 for (int j = 0; j < tamCromosoma; j++) {
                     int valor = poblacionPrueba.get(i).getCromosoma().get(j).getValor();
+                    
                     if (valor == 1) {
-                        int pesoElectrodomestico = poblacionPrueba.get(i).getCromosoma().get(j).getProducto().getPesoKg().intValue();
-                        if (sumatoriaDePesos + pesoElectrodomestico > capacidadMaxima) {
-                            excedeCapacidad = true;
-                            penalizacion = sumatoriaDePesos + pesoElectrodomestico - capacidadMaxima;
-                            break;
-                        }
-                        sumatoriaDePesos = sumatoriaDePesos + pesoElectrodomestico;
+                        
+                        sumatoriaDePesos = sumatoriaDePesos + poblacionPrueba.get(i).getCromosoma().get(j).getProducto().getPesoKg().intValue();
                         sumatoriaDeBeneficios = sumatoriaDeBeneficios + poblacionPrueba.get(i).getCromosoma().get(j).getProducto().getBeneficio();
-                    }
-                }
+                        
+                        if (sumatoriaDePesos > capacidadMaxima) {
+                            /*hallar la penalizacion*/
+                            penalizacion = sumatoriaDePesos - capacidadMaxima;
 
-                if (!excedeCapacidad) {
-                    penalizacion = 0;
+                        } else {
+                            /*no hay penalizacion = 0*/
+                            penalizacion = 0;
+                        }
+                    }
                 }
 
                 funcionFiteness = sumatoriaDeBeneficios - penalizacion;
