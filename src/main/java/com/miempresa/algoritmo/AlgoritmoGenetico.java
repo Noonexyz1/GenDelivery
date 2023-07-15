@@ -5,34 +5,61 @@ import com.miempresa.entidades.Electrodomestico;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.IntFunction;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class AlgoritmoGenetico {
 
     public List<Electrodomestico> algoritmoGenetico(int capacidadMaximaCamion) {
 
+        
         ElectrodomesticoBean electrodomesticoBean = new ElectrodomesticoBean();
-
         Poblacion poblacion = new Poblacion();
-        List<Cromosoma> cromosomas = new ArrayList<>();
-
-        for (int i = 0; i < 6; i++) {
-            /*creamos una muestra de una colecion des genes, osea la primera fila*/
-            List<Gen> genes = new ArrayList<>();
-            List<Electrodomestico> lista = electrodomesticoBean.obtenerElectrodomesticos();
-            for (Electrodomestico electro : lista) {
-                Gen gen = new Gen();
-                gen.setElectrodomestico(electro);
-                genes.add(gen);
-            }
-
+        List<Electrodomestico> listaElectrodomesticos = electrodomesticoBean.obtenerElectrodomesticos();
+        
+        
+        /*Function<Electrodomestico, Gen> funcion1_1 = (electro) -> {
+            Gen gen = new Gen();
+            gen.setElectrodomestico(electro);
+            return gen;
+        };*/
+        
+        IntFunction< List<Gen> > funcion1 = i -> 
+                listaElectrodomesticos.stream()
+                    .map(electro -> {
+                            Gen gen = new Gen();
+                            gen.setElectrodomestico(electro);
+                            return gen;
+                    }).peek(ic -> 
+                            System.out.println("paso 1.1: valor = " + ic.getValor() + " - NombreProducto = " + ic.getProducto().getNombre())
+                    )
+                .collect(Collectors.toList());
+        
+        Function<List<Gen>, Cromosoma> funcion2 = genes -> {
             Cromosoma cromosoma = new Cromosoma();
             cromosoma.setCromosoma(genes);
-            cromosomas.add(cromosoma);
-        }
+            return cromosoma;
+        };
+        
+        List<Cromosoma> poblacionCromo = 
+            IntStream
+                    //.range(0, 6) HAce que ejecute todas los otros mas, 6 veces, como si fuera un for
+                .range(0, 6).peek(ic -> 
+                            System.out.println("IntStream Terminado: " + ic))
+                    .mapToObj(funcion1).peek(ic -> 
+                            System.out.println("mapToObj Terminado: " + ic.toString()))
+                    .map(funcion2).peek(ic -> 
+                            System.out.println("map Terminado: " + ic.toString()))
+            .collect(Collectors.toList());
+            
+        //puedo comvertir cualquier tipo en un flujo
+        poblacion.setPoblacion(poblacionCromo);
 
-        poblacion.setPoblacion(cromosomas);
-
+        
+        
+        
         /*se supone que hasta aqui ya tengo toda la poblacion con los cromosomas dentro y lo genes tambien*/
         List<Cromosoma> poblacionPrueba = poblacion.getPoblacion();
         int tamCromosoma = poblacionPrueba.get(0).getCromosoma().size();
